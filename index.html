@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherToday.com</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <link rel="stylesheet" href="./style.css">
+    <style>
+
+        body {
+            background: url("./New folder/skyy.webp") no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="heading">
+                    <a style="text-decoration: none; color: white;" href="./index.html"><h1>WeatherToday.com</h1></a>
+                </div>
+                <div class="searchbox">
+                    <form class="d-flex">
+                        <input id="cname" class="form-control me-2" type="search" placeholder="Search city" aria-label="Search">
+                        <button onclick="searchData()" class="btn btn-outline-success" type="button">Search</button>
+                        <button style="margin-left: 10px;" onclick="useloc()" type="button" class="btn btn-outline-primary">Use current location</button>
+                    </form>
+                </div>
+                <div class="box">
+                    <div class="current" id="current1">
+                        <i class="fas fa-cloud fa-4x"></i>
+                        <h5 id="cityName">Kochi, India</h5>
+                    </div>
+                    <div class="temp" id="temp1">
+                        <i class="fas fa-temperature-high fa-4x"></i>
+                        <h5 id="temperature">Temperature: 25°C</h5>
+                    </div>
+                    <div class="wind" id="wind1">
+                        <i class="fas fa-wind fa-4x"></i>
+                        <h5 id="windSpeed">Wind-Speed: 1.37 m/h</h5>
+                    </div>
+                    <div class="humidity" id="hum1">
+                        <i class="fas fa-tint fa-4x"></i>
+                        <h5 id="humidity">Humidity: 70%</h5>
+                    </div>
+                    <!-- <div class="date">
+                        <input type="date" style="background-color: rgba(0, 255, 255, 0);">
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function searchData() {
+            const cityName = document.getElementById('cname').value;
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=b41ec3be35c7dac8aabbc21ba253137a`)
+                .then(response => response.json())
+                .then(data => displayData(data));
+        }
+
+        function displayData(data) {
+            const cityName = document.getElementById('cityName');
+            const temperature = document.getElementById('temperature');
+            const windSpeed = document.getElementById('windSpeed');
+            const humidity = document.getElementById('humidity');
+
+            cityName.textContent = data.name;
+            temperature.textContent = `Temperature: ${(data.main.temp - 273.15).toFixed(2)}°C`;
+            windSpeed.textContent = `Wind-Speed: ${data.wind.speed} m/s`;
+            humidity.textContent = `Humidity: ${data.main.humidity}%`;
+        }
+    </script>
+</body>
+</html>
